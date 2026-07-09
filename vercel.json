@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/PHILLY_Dashboard_JARVIS_UI.html" }
+  ]
+}
