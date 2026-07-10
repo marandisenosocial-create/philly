@@ -1,18 +1,24 @@
 {
-  "name": "PHILLY - MARAN & Layerson",
-  "short_name": "PHILLY",
-  "description": "Sistema de gestión de pedidos, producción y finanzas para MARAN & Layerson",
-  "start_url": "./PHILLY_Dashboard_JARVIS_UI.html",
-  "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#2d5016",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23C8E6A0;stop-opacity:1' /><stop offset='100%' style='stop-color:%23A8D87F;stop-opacity:1' /></linearGradient></defs><rect fill='url(%23grad)' width='192' height='192' rx='40'/><text x='96' y='140' font-size='120' font-weight='900' font-family='Arial, sans-serif' text-anchor='middle' fill='%231a4d2e' letter-spacing='0'>P</text></svg>",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    }
-  ]
+    "name": "Philly",
+    "short_name": "Philly",
+    "description": "Sistema de gestión de pedidos, producción y finanzas para MARAN & Layerson",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#E8DAEF",
+    "theme_color": "#1a4d2e",
+    "orientation": "portrait-primary",
+    "icons": [
+          {
+                  "src": "icons/philly-icon-192.png",
+                  "sizes": "192x192",
+                  "type": "image/png",
+                  "purpose": "any"
+          },
+          {
+                  "src": "icons/philly-icon-512.png",
+                  "sizes": "512x512",
+                  "type": "image/png",
+                  "purpose": "any"
+          }
+    ]
 }
