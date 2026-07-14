@@ -722,7 +722,24 @@ function showPage(name) {
 // HELPERS
 // ════════════════════════════════════════════════════════
 const fmt$ = v => v ? '$' + Number(v).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
-const fmtDate = s => { if (!s) return '—'; const [y,m,d] = s.split('-'); return `${d}/${m}/${y}`; };
+const fmtDate = value => {
+  if (!value) return '—';
+  const s = value instanceof Date
+    ? value.toISOString().slice(0, 10)
+    : String(value).trim();
+
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
+    const [y, m, d] = s.slice(0, 10).split('-');
+    return `${d}/${m}/${String(y).slice(-2)}`;
+  }
+
+  if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) {
+    const [d, m, y] = s.split('/');
+    return `${d.padStart(2, '0')}/${m.padStart(2, '0')}/${String(y).slice(-2)}`;
+  }
+
+  return s;
+};
 
 function estadoPago(p) {
   const ant = Number(p.anticipoRecibido || 0);
