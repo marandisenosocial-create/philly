@@ -741,6 +741,20 @@ const fmtDate = value => {
   return s;
 };
 
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[ch]));
+}
+
+function dash(value) {
+  return value ? escapeHtml(value) : '—';
+}
+
 function estadoPago(p) {
   const ant = Number(p.anticipoRecibido || 0);
   const liq = Number(p.liquidacionRecibida || 0);
@@ -785,7 +799,7 @@ function openPedidoModal(id = null) {
   document.getElementById('p-fecha-ingreso').value = today();
   // Populate datalist
   const dl = document.getElementById('clientes-datalist');
-  dl.innerHTML = DB.clientes.map(c => `<option value="${c.nombre}">`).join('');
+  dl.innerHTML = DB.clientes.map(c => `<option value="${escapeHtml(c.nombre)}">`).join('');
   if (id) {
     const p = DB.pedidos.find(x => x.id === id);
     if (p) {
@@ -882,10 +896,10 @@ function renderPedidos() {
     const rowClass = p.empresa === 'MARAN' ? 'row-maran' : 'row-layerson';
     return `<tr class="${rowClass}">
       <td style="color:#999;font-size:11px">${i+1}</td>
-      <td><span class="badge badge-${p.empresa === 'MARAN' ? 'maran' : 'layerson'}">${p.empresa}</span></td>
+      <td><span class="badge badge-${p.empresa === 'MARAN' ? 'maran' : 'layerson'}">${escapeHtml(p.empresa)}</span></td>
       <td>${fmtDate(p.fechaIngreso)}</td>
-      <td><strong>${p.clienteNombre}</strong></td>
-      <td style="max-width:180px;word-break:break-word;font-size:12px">${p.descripcion}</td>
+      <td><strong>${escapeHtml(p.clienteNombre)}</strong></td>
+      <td style="max-width:180px;word-break:break-word;font-size:12px">${escapeHtml(p.descripcion)}</td>
       <td class="amount">${fmt$(p.montoTotal)}</td>
       <td class="amount positive">${fmt$(p.anticipoRecibido)}</td>
       <td class="amount ${s > 0 ? 'negative' : ''}">${s > 0 ? fmt$(s) : '—'}</td>
@@ -921,8 +935,8 @@ function renderProduccion() {
       const ep = estadoPago(p);
       const isUrgent = p.fechaEntrega && p.fechaEntrega <= today_s;
       return `<tr style="${isUrgent ? 'background:var(--red-lt)' : ''}">
-        <td><strong>${p.clienteNombre}</strong>${isUrgent ? ' 🔴' : ''}</td>
-        <td style="font-size:12px;max-width:150px;word-break:break-word">${p.descripcion}</td>
+        <td><strong>${escapeHtml(p.clienteNombre)}</strong>${isUrgent ? ' 🔴' : ''}</td>
+        <td style="font-size:12px;max-width:150px;word-break:break-word">${escapeHtml(p.descripcion)}</td>
         <td><strong style="color:${isUrgent ? 'var(--red)' : 'inherit'}">${fmtDate(p.fechaEntrega)}</strong></td>
         <td>${estadoBadge(ep)}</td>
         <td>${p.requiereFactura === 'Sí' && p.facturaRealizada !== 'Sí' ? '<span class="badge badge-no">📄 Pendiente</span>' : p.requiereFactura === 'Sí' ? '<span class="badge badge-si">📄 Lista</span>' : '<span style="color:#ccc;font-size:11px">—</span>'}</td>
@@ -1033,13 +1047,13 @@ function renderFinanzas() {
     const empClass = f.empresa === 'MARAN' ? 'maran' : f.empresa === 'Layerson' ? 'layerson' : '';
     return `<tr>
       <td>${fmtDate(f.fecha)}</td>
-      <td>${empClass ? `<span class="badge badge-${empClass}">${f.empresa}</span>` : f.empresa}</td>
-      <td><span class="badge badge-${f.tipo === 'Ingreso' ? 'ingreso' : 'egreso'}">${f.tipo}</span></td>
-      <td style="font-size:12px">${f.categoria||'—'}</td>
-      <td>${f.descripcion}</td>
+      <td>${empClass ? `<span class="badge badge-${empClass}">${escapeHtml(f.empresa)}</span>` : escapeHtml(f.empresa)}</td>
+      <td><span class="badge badge-${f.tipo === 'Ingreso' ? 'ingreso' : 'egreso'}">${escapeHtml(f.tipo)}</span></td>
+      <td style="font-size:12px">${dash(f.categoria)}</td>
+      <td>${escapeHtml(f.descripcion)}</td>
       <td class="amount ${f.tipo==='Ingreso'?'positive':'negative'}">${f.tipo==='Ingreso'?'+':'-'}${fmt$(f.monto)}</td>
-      <td style="font-size:12px;color:#888">${f.metodoPago||'—'}</td>
-      <td style="font-size:12px;color:#888;max-width:120px">${f.notas||''}</td>
+      <td style="font-size:12px;color:#888">${dash(f.metodoPago)}</td>
+      <td style="font-size:12px;color:#888;max-width:120px">${escapeHtml(f.notas || '')}</td>
       <td class="col-actions">
         <button class="action-btn" onclick="openFinanzaModal('${f.id}')">✏️</button>
         <button class="action-btn" onclick="deleteFinanza('${f.id}')">🗑️</button>
@@ -1130,13 +1144,13 @@ function renderClientes() {
   if (!list.length) { tbody.innerHTML = `<tr><td colspan="9" class="empty-state"><span class="icon">👥</span>Sin clientes registrados</td></tr>`; return; }
   tbody.innerHTML = list.map((c, i) => `<tr>
     <td style="color:#999;font-size:11px">${i+1}</td>
-    <td><strong>${c.nombre}</strong></td>
-    <td style="font-size:12px">${c.razonSocial||'—'}</td>
-    <td style="font-family:monospace;font-size:12px">${c.rfc||'—'}</td>
-    <td style="font-size:11px;max-width:160px;word-break:break-word">${c.regimenFiscal||'—'}</td>
-    <td style="font-size:12px">${c.email||'—'}</td>
-    <td style="font-size:12px">${c.telefono||'—'}</td>
-    <td><span class="badge badge-${c.empresa==='MARAN'?'maran':c.empresa==='Layerson'?'layerson':'sin'}">${c.empresa}</span></td>
+    <td><strong>${escapeHtml(c.nombre)}</strong></td>
+    <td style="font-size:12px">${dash(c.razonSocial)}</td>
+    <td style="font-family:monospace;font-size:12px">${dash(c.rfc)}</td>
+    <td style="font-size:11px;max-width:160px;word-break:break-word">${dash(c.regimenFiscal)}</td>
+    <td style="font-size:12px">${dash(c.email)}</td>
+    <td style="font-size:12px">${dash(c.telefono)}</td>
+    <td><span class="badge badge-${c.empresa==='MARAN'?'maran':c.empresa==='Layerson'?'layerson':'sin'}">${escapeHtml(c.empresa)}</span></td>
     <td class="col-actions">
       <button class="action-btn" onclick="openClienteModal('${c.id}')">✏️</button>
       <button class="action-btn" onclick="deleteCliente('${c.id}')">🗑️</button>
