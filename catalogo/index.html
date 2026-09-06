@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MARAN × LayerSon Creative House</title>
+<meta name="description" content="Diseñamos ideas. Fabricamos posibilidades. Momentos de vida, colecciones de temporada, merch por lote y piezas a la medida, en una misma casa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Anton&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+
+<script>
+/* =====================================================================
+   EDITA AQUÍ. Todo lo que ve el cliente sale de este bloque.
+   Reglas:
+   - desde: número en pesos, o null para mostrar "a cotizar". No inventar.
+   - abre / cierra: "AAAA-MM-DD" o null. El estado se calcula solo.
+   - whatsapp: solo dígitos con lada de país, por ejemplo "521XXXXXXXXXX".
+   ===================================================================== */
+const CATALOGO = {
+  config: {
+    whatsapp: "",
+    instagram: "",
+    ciudad: ""
+  },
+
+  momentos: [
+    {
+      id: "boda",
+      nombre: "Boda",
+      frase: "Un solo hilo visual, de la invitación al último detalle.",
+      antes:   ["Invitación digital", "Save the date"],
+      durante: ["Menú y señalética", "Barra de café vestida", "Stand de merch: camisetas, totebags, llaveros", "Termos personalizados"],
+      despues: ["Recuerditos", "Tags de agradecimiento"],
+      desde: null
+    },
+    {
+      id: "cumpleanos",
+      nombre: "Cumpleaños",
+      frase: "El tema se vive en cada pieza, no solo en el pastel.",
+      antes:   ["Invitación digital"],
+      durante: ["Cake topper", "Menú", "Piñata", "Vasos personalizados", "Hojas de actividades", "Stickers"],
+      despues: ["Bolsita de dulces", "Recuerditos"],
+      desde: null
+    },
+    {
+      id: "babyshower",
+      nombre: "Baby shower",
+      frase: "Suave, coordinado y listo para la foto.",
+      antes:   ["Invitación digital"],
+      durante: ["Letreros", "Cake topper", "Tags y stickers", "Menú"],
+      despues: ["Recuerditos"],
+      desde: null
+    },
+    {
+      id: "nacimiento",
+      nombre: "Nacimiento",
+      frase: "El primer letrero de su vida, con fecha, hora y peso.",
+      antes:   ["Anuncio digital"],
+      durante: ["Letrero de hospital", "Detalles para las visitas"],
+      despues: ["Tarjetas de agradecimiento"],
+      desde: null
+    }
+  ],
+
+  otrosMomentos: ["Pedida de mano", "Bridal shower", "Bautizo", "XV años"],
+
+  temporadas: [
+    {
+      id: "futbol",
+      nombre: "Temporada de futbol",
+      marca: "layerson",
+      descripcion: "Termos en colores de tu equipo. Por pieza o por lote.",
+      abre: "2026-09-06",
+      cierra: null,
+      desde: null
+    },
+    {
+      id: "halloween",
+      nombre: "Halloween",
+      marca: "maran",
+      descripcion: "Colección de detalles y decoración con diseño propio.",
+      abre: null,
+      cierra: null,
+      desde: null
+    },
+    {
+      id: "navidad",
+      nombre: "Navidad",
+      marca: "ambas",
+      descripcion: "Detalles, regalos personalizados y piezas fabricadas. Cupo limitado.",
+      abre: null,
+      cierra: null,
+      desde: null
+    },
+    {
+      id: "sanvalentin",
+      nombre: "San Valentín",
+      marca: "maran",
+      descripcion: "Detalles chicos con precio fijo.",
+      abre: null,
+      cierra: null,
+      desde: null
+    }
+  ],
+
+  negocio: [
+    { nombre: "Uniformes", descripcion: "Playeras y prendas con tu marca en DTF.", lote: "por lote", desde: null },
+    { nombre: "Merch promocional", descripcion: "Playeras, llaveros, totebags y termos para regalar o vender.", lote: "por lote", desde: null },
+    { nombre: "Displays con NFC", descripcion: "Un pequeño aparador en tu mostrador: lo acercan y siguen tu negocio.", lote: "por pieza o lote", desde: null },
+    { nombre: "Corte láser", descripcion: "Letreros, displays y piezas a medida.", lote: "por proyecto", desde: null }
+  ],
+
+  aMedida: [
+    { titulo: "Industrial", descripcion: "Una pieza especial para un área de planta que ya no se consigue o nunca existió." },
+    { titulo: "Colección", descripcion: "La figura que un coleccionista o un papá busca y no encuentra en el mercado." },
+    { titulo: "Refacción", descripcion: "Una pieza automotriz o de máquina, medida, modelada e impresa en 3D." }
+  ]
+};
+</script>
+
+<style>
+  :root {
+    --hueso: #F3EEE3;
+    --lino: #E9E1D2;
+    --madera: #A8825A;
+    --madera-suave: #D9C7AC;
+    --tinta: #26231F;
+    --tinta-suave: #6B645B;
+    --carbon: #1E2124;
+    --grafito: #2A2F34;
+    --grafito-linea: #3A4047;
+    --azul: #3C74FF;
+    --azul-suave: #9DB8FF;
+    --niebla: #F4F2ED;
+    --niebla-suave: #A9AEB5;
+    --font-maran: "Fraunces", Georgia, "Times New Roman", serif;
+    --font-layerson: "Anton", Impact, "Arial Narrow", sans-serif;
+    --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --max: 1180px;
+    --gutter: clamp(20px, 5vw, 64px);
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--hueso);
+    color: var(--tinta);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+
+  /* ---------- tipografía ---------- */
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--madera); margin: 0 0 14px;
+  }
+  .display {
+    font-family: var(--font-maran); font-weight: 300; line-height: 1.05; letter-spacing: -0.01em;
+    text-wrap: balance; margin: 0;
+  }
+  .display em { font-style: italic; font-weight: 400; }
+  h2.display { font-size: clamp(30px, 4.4vw, 50px); }
+  .lead { font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; color: var(--tinta-suave); max-width: 34em; margin: 18px 0 0; }
+  p { margin: 0; }
+
+  /* ---------- header ---------- */
+  .top {
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding: 20px 0; border-bottom: 1px solid var(--madera-suave);
+  }
+  .marca { display: flex; align-items: baseline; gap: 10px; text-decoration: none; }
+  .marca .m { font-family: var(--font-maran); font-weight: 400; font-size: 20px; letter-spacing: 0.08em; }
+  .marca .x { font-family: var(--font-maran); font-style: italic; color: var(--madera); font-size: 18px; }
+  .marca .l { font-family: var(--font-layerson); font-size: 19px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .marca .casa { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tinta-suave); margin-left: 6px; display: none; }
+  nav.menu { display: none; gap: 26px; font-size: 14px; font-weight: 500; }
+  nav.menu a { text-decoration: none; color: var(--tinta-suave); }
+  nav.menu a:hover { color: var(--tinta); }
+  @media (min-width: 860px) { nav.menu { display: flex; } .marca .casa { display: inline; } }
+
+  /* ---------- botones ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 22px; border-radius: 999px; text-decoration: none;
+    font-weight: 600; font-size: 15px; line-height: 1; border: 1px solid transparent;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-tinta { background: var(--tinta); color: var(--hueso); }
+  .btn-tinta:hover { background: #000; }
+  .btn-linea { border-color: var(--tinta); color: var(--tinta); background: transparent; }
+  .btn-linea:hover { background: var(--lino); }
+  .btn-azul { background: var(--azul); color: #fff; }
+  .btn-azul:hover { background: #2B5FE6; }
+  .btn-niebla { border-color: var(--niebla-suave); color: var(--niebla); background: transparent; }
+  .btn-niebla:hover { background: var(--grafito); }
+  .btn small { font-weight: 500; opacity: .7; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: clamp(40px, 7vw, 96px) 0 clamp(40px, 6vw, 80px); }
+  .hero-grid { display: grid; gap: 36px; align-items: end; }
+  @media (min-width: 860px) { .hero-grid { grid-template-columns: 7fr 5fr; gap: 64px; } }
+  h1.display { font-size: clamp(42px, 7.2vw, 88px); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .hero-foto { position: relative; }
+  .foto {
+    background: var(--lino); border-radius: 4px; overflow: hidden;
+    display: grid; place-items: end start; position: relative; min-height: 200px;
+  }
+  .foto::before { content: ""; position: absolute; inset: 0; background:
+    linear-gradient(135deg, rgba(168,130,90,.10), rgba(168,130,90,0) 60%); }
+  .foto .cap {
+    position: relative; font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--tinta-suave); padding: 14px 16px;
+  }
+  .foto.r3-4 { aspect-ratio: 3 / 4; }
+  .foto.r4-3 { aspect-ratio: 4 / 3; }
+  .foto.r1-1 { aspect-ratio: 1 / 1; }
+  .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .foto img + .cap { color: var(--niebla); background: linear-gradient(transparent, rgba(0,0,0,.45)); width: 100%; }
+
+  /* ---------- secciones ---------- */
+  section { padding: clamp(56px, 8vw, 120px) 0; }
+  .sec-head { display: grid; gap: 16px; margin-bottom: clamp(32px, 4vw, 56px); }
+  @media (min-width: 860px) { .sec-head { grid-template-columns: 7fr 5fr; align-items: end; gap: 48px; } .sec-head .lead { margin-top: 0; } }
+
+  /* momentos */
+  .momentos { display: grid; gap: 1px; background: var(--madera-suave); border-top: 1px solid var(--madera-suave); border-bottom: 1px solid var(--madera-suave); }
+  @media (min-width: 700px) { .momentos { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .momentos { grid-template-columns: repeat(4, 1fr); } }
+  .momento { background: var(--hueso); padding: 28px 24px 30px; display: flex; flex-direction: column; gap: 18px; }
+  .momento h3 { font-family: var(--font-maran); font-weight: 400; font-size: 30px; line-height: 1; margin: 0; letter-spacing: -0.01em; }
+  .momento .frase { font-family: var(--font-maran); font-style: italic; font-size: 17px; color: var(--tinta-suave); line-height: 1.35; }
+  .fase { display: grid; grid-template-columns: 74px 1fr; gap: 10px; font-size: 14px; padding-top: 12px; border-top: 1px solid var(--madera-suave); }
+  .fase b { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--madera); font-weight: 600; padding-top: 3px; }
+  .fase ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; color: var(--tinta); }
+  .momento .pie { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 18px; }
+  .precio { font-family: var(--font-maran); font-size: 17px; }
+  .precio small { font-family: var(--font-body); font-size: 12px; color: var(--tinta-suave); display: block; }
+  .link { font-size: 14px; font-weight: 600; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; white-space: nowrap; }
+  .otros { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 14px; color: var(--tinta-suave); }
+  .otros span.tag { font-family: var(--font-maran); font-size: 17px; color: var(--tinta); }
+  .otros a { margin-left: auto; }
+
+  /* temporada */
+  .temporadas { display: grid; gap: 18px; }
+  @media (min-width: 700px) { .temporadas { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .temporadas { grid-template-columns: repeat(4, 1fr); } }
+  .temporada { display: flex; flex-direction: column; gap: 14px; padding: 22px; border: 1px solid var(--madera-suave); border-radius: 6px; background: rgba(255,255,255,.35); }
+  .temporada h3 { font-family: var(--font-maran); font-weight: 400; font-size: 24px; margin: 0; line-height: 1.1; }
+  .temporada .desc { font-size: 14px; color: var(--tinta-suave); }
+  .estado { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+  .estado::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .estado.abierta { color: #2E7D5B; }
+  .estado.cerrada { color: var(--tinta-suave); }
+  .estado.proximamente { color: var(--madera); }
+  .temporada .fechas { font-size: 12.5px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+  .temporada .pie { margin-top: auto; display: flex; justify-content: space-between; align-items: end; gap: 10px; padding-top: 6px; }
+  .quien { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--tinta-suave); }
+
+  /* ---------- cuarto oscuro (LayerSon) ---------- */
+  .oscuro { background: var(--carbon); color: var(--niebla); }
+  .oscuro .eyebrow { color: var(--azul-suave); }
+  .oscuro .display { font-family: var(--font-layerson); font-weight: 400; text-transform: uppercase; letter-spacing: .01em; line-height: .98; }
+  .oscuro h2.display { font-size: clamp(38px, 6vw, 72px); }
+  .oscuro .lead { color: var(--niebla-suave); }
+  .lote { display: grid; gap: 1px; background: var(--grafito-linea); border-top: 1px solid var(--grafito-linea); border-bottom: 1px solid var(--grafito-linea); }
+  @media (min-width: 700px) { .lote { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .lote { grid-template-columns: repeat(4, 1fr); } }
+  .lote .item { background: var(--carbon); padding: 26px 22px 28px; display: flex; flex-direction: column; gap: 10px; }
+  .lote h3 { font-family: var(--font-body); font-weight: 600; font-size: 19px; margin: 0; }
+  .lote .desc { font-size: 14px; color: var(--niebla-suave); }
+  .lote .pie { margin-top: auto; padding-top: 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .lote .precio { font-family: var(--font-body); font-weight: 600; font-size: 14px; color: var(--azul-suave); }
+  .lote .quien { color: var(--niebla-suave); }
+  .oscuro .foto { background: var(--grafito); }
+  .oscuro .foto::before { background: linear-gradient(135deg, rgba(60,116,255,.16), rgba(60,116,255,0) 55%); }
+  .oscuro .foto .cap { color: var(--niebla-suave); }
+
+  .casos { display: grid; gap: 28px; }
+  @media (min-width: 860px) { .casos { grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; } }
+  .caso-lista { display: flex; flex-direction: column; }
+  .caso { padding: 22px 0; border-top: 1px solid var(--grafito-linea); display: grid; gap: 6px; }
+  .caso:last-child { border-bottom: 1px solid var(--grafito-linea); }
+  .caso h3 { margin: 0; font-family: var(--font-layerson); font-size: 26px; letter-spacing: .02em; text-transform: uppercase; font-weight: 400; color: var(--azul-suave); }
+  .caso p { color: var(--niebla-suave); font-size: 15px; max-width: 36em; }
+  .medida-cta { display: grid; gap: 14px; margin-top: 28px; }
+  .medida-cta .nota { font-size: 13px; color: var(--niebla-suave); }
+  .pasos-medida { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-size: 15px; }
+  .pasos-medida li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: baseline; }
+  .pasos-medida li b { font-family: var(--font-layerson); font-weight: 400; font-size: 20px; color: var(--azul); }
+
+  /* ---------- la casa ---------- */
+  .casa-grid { display: grid; gap: 4px; }
+  @media (min-width: 700px) { .casa-grid { grid-template-columns: 1fr 1fr; } }
+  .casa-lado { position: relative; }
+  .casa-lado .foto { border-radius: 4px; aspect-ratio: 4 / 5; }
+  .casa-texto { display: grid; gap: 28px; margin-top: 36px; }
+  @media (min-width: 860px) { .casa-texto { grid-template-columns: 1fr 1fr; gap: 64px; } }
+  .casa-texto h3 { margin: 0 0 8px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
+  .casa-texto p { color: var(--tinta-suave); max-width: 34em; }
+  .creditos { margin-top: 40px; font-family: var(--font-maran); font-style: italic; font-size: 20px; color: var(--tinta-suave); }
+  .creditos b { font-style: normal; font-weight: 400; color: var(--tinta); }
+
+  /* ---------- cómo trabajamos ---------- */
+  .pasos { display: grid; gap: 28px; counter-reset: paso; }
+  @media (min-width: 860px) { .pasos { grid-template-columns: repeat(3, 1fr); gap: 48px; } }
+  .paso { counter-increment: paso; padding-top: 18px; border-top: 1px solid var(--madera-suave); }
+  .paso::before { content: counter(paso, decimal-leading-zero); font-family: var(--font-maran); font-size: 36px; font-weight: 300; color: var(--madera); display: block; line-height: 1; margin-bottom: 14px; }
+  .paso h3 { margin: 0 0 8px; font-family: var(--font-maran); font-weight: 400; font-size: 24px; }
+  .paso p { color: var(--tinta-suave); font-size: 15px; }
+
+  /* ---------- contacto / footer ---------- */
+  .contacto { border-top: 1px solid var(--madera-suave); }
+  .contacto-grid { display: grid; gap: 28px; align-items: end; }
+  @media (min-width: 860px) { .contacto-grid { grid-template-columns: 7fr 5fr; gap: 64px; } }
+  .contacto .datos { display: grid; gap: 8px; font-size: 15px; }
+  .contacto .datos span { color: var(--tinta-suave); }
+  footer { padding: 28px 0 40px; font-size: 12.5px; color: var(--tinta-suave); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; border-top: 1px solid var(--madera-suave); }
+
+  .aviso-config {
+    margin: 16px 0 0; font-size: 12.5px; color: #8A5A2B; background: #F6E7D2; border: 1px solid #E8CFAE;
+    padding: 10px 14px; border-radius: 4px; display: none;
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="top">
+    <a class="marca" href="#inicio" aria-label="Maran × LayerSon Creative House">
+      <span class="m">MARAN</span><span class="x">×</span><span class="l">LayerSon</span>
+      <span class="casa">Creative House</span>
+    </a>
+    <nav class="menu" aria-label="Secciones">
+      <a href="#momentos">Momentos</a>
+      <a href="#temporada">Temporada</a>
+      <a href="#negocio">Para tu negocio</a>
+      <a href="#medida">A la medida</a>
+      <a href="#casa">La Casa</a>
+      <a href="#contacto">Cotizar</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <!-- HERO -->
+  <section class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Diseño y fabricación en una misma casa</p>
+        <h1 class="display">Diseñamos ideas.<br><em>Fabricamos</em> posibilidades.</h1>
+        <p class="lead">Desde la invitación hasta el último recuerdito. Y si algo no existe, lo fabricamos.</p>
+        <div class="hero-actions">
+          <a class="btn btn-tinta" data-wa="Hola, tengo una idea y quiero ver si se puede hacer." href="#contacto">Cuéntanos tu idea</a>
+          <a class="btn btn-linea" href="#momentos">Ver momentos</a>
+        </div>
+        <p class="aviso-config" id="aviso-config">Falta configurar el número de WhatsApp en el bloque CATALOGO. Los botones llevan a la sección de contacto mientras tanto.</p>
+      </div>
+      <div class="hero-foto">
+        <div class="foto r3-4"><span class="cap">Foto: mesa de evento completa con una pieza fabricada visible</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOMENTOS -->
+  <section id="momentos" class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Momentos</p>
+        <h2 class="display">Elige el momento. <em>Nosotros armamos todo lo demás.</em></h2>
+      </div>
+      <p class="lead">Cada evento se diseña como una sola historia: lo que se manda antes, lo que se vive ese día y lo que se llevan a casa.</p>
+    </div>
+    <div class="momentos" id="lista-momentos"></div>
+    <div class="otros" id="otros-momentos"></div>
+  </section>
+
+  <!-- TEMPORADA -->
+  <section id="temporada" class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Temporada</p>
+        <h2 class="display">Colecciones que abren <em>y cierran.</em></h2>
+      </div>
+      <p class="lead">Precio fijo, cupo limitado y fecha de cierre. Cuando se llena, se cierra.</p>
+    </div>
+    <div class="temporadas" id="lista-temporadas"></div>
+  </section>
+
+  <!-- PARA TU NEGOCIO (cuarto oscuro) -->
+  <section id="negocio" class="oscuro">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Para tu negocio</p>
+          <h2 class="display">Lo que se usa<br>y se queda.</h2>
+        </div>
+        <p class="lead">Uniformes, merch y displays fabricados por lote. Nos mandas tu logo, te decimos cantidades y precio.</p>
+      </div>
+      <div class="lote" id="lista-negocio"></div>
+    </div>
+  </section>
+
+  <!-- A LA MEDIDA (cuarto oscuro) -->
+  <section id="medida" class="oscuro" style="padding-top:0">
+    <div class="wrap">
+      <div class="casos">
+        <div>
+          <p class="eyebrow">A la medida</p>
+          <h2 class="display">¿Se puede hacer?</h2>
+          <p class="lead">Casi siempre sí. Modelamos, imprimimos en 3D, cortamos y armamos piezas que no existen en el mercado.</p>
+          <div class="medida-cta">
+            <ol class="pasos-medida">
+              <li><b>1</b><span>Mándanos una foto o un dibujo.</span></li>
+              <li><b>2</b><span>Dinos para qué es y cuántas necesitas.</span></li>
+              <li><b>3</b><span>Te decimos si se puede, cómo y cuánto.</span></li>
+            </ol>
+            <div><a class="btn btn-azul" data-wa="Hola, tengo una pieza que necesito fabricar. Les mando foto y descripción." href="#contacto">Mandar foto y descripción</a></div>
+            <p class="nota">Piezas únicas o series cortas. Sin mínimo.</p>
+          </div>
+        </div>
+        <div class="caso-lista" id="lista-medida"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LA CASA -->
+  <section id="casa" class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">La Casa</p>
+        <h2 class="display">Una casa antigua, <em>dos cuartos</em> y una sola mesa.</h2>
+      </div>
+      <p class="lead">Estamos adaptando la casa de junto para que diseño y fabricación vivan bajo el mismo techo. Así va a ser.</p>
+    </div>
+    <div class="casa-grid">
+      <div class="casa-lado">
+        <div class="foto"><img src="img/casa-maran.jpg" alt="Render del taller de Maran: mesa larga de madera, luz natural y papelería en repisas"><span class="cap">Maran · así será</span></div>
+      </div>
+      <div class="casa-lado">
+        <div class="foto"><img src="img/casa-layerson.jpg" alt="Render del taller de LayerSon: máquinas, filamento y luz azul"><span class="cap">LayerSon · así será</span></div>
+      </div>
+    </div>
+    <div class="casa-texto">
+      <div>
+        <h3>El cuarto de Maran</h3>
+        <p>Una mesa larga, luz de día y papel. Aquí se diseña el momento: la invitación, el menú, el letrero, el detalle que se llevan a casa.</p>
+      </div>
+      <div>
+        <h3>El cuarto de LayerSon</h3>
+        <p>Impresoras 3D, prensa, láser y filamento. Aquí lo que se diseñó se vuelve objeto: el termo, la playera, la pieza que no existía.</p>
+      </div>
+    </div>
+    <p class="creditos">En cada proyecto: <b>Diseño: Maran</b> · <b>Fabricación: LayerSon</b></p>
+  </section>
+
+  <!-- CÓMO TRABAJAMOS -->
+  <section class="wrap" style="padding-top:0">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Cómo trabajamos</p>
+        <h2 class="display">Tres pasos, <em>sin vueltas.</em></h2>
+      </div>
+    </div>
+    <div class="pasos">
+      <div class="paso">
+        <h3>Cuéntanos</h3>
+        <p>Por WhatsApp: qué celebras o qué necesitas, para cuándo y para cuántas personas. Fotos de referencia ayudan.</p>
+      </div>
+      <div class="paso">
+        <h3>Propuesta y cotización</h3>
+        <p>Te decimos qué incluye, qué mueve el precio y el anticipo para apartar fecha. Sin sorpresas después.</p>
+      </div>
+      <div class="paso">
+        <h3>Diseño, producción y entrega</h3>
+        <p>Apruebas el diseño, fabricamos y entregamos en la fecha acordada. Tú solo disfrutas el día.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="wrap contacto">
+    <div class="contacto-grid">
+      <div>
+        <p class="eyebrow">Cotizar</p>
+        <h2 class="display">Cuéntanos qué estás <em>imaginando.</em></h2>
+        <p class="lead">Respondemos por WhatsApp con una propuesta clara: qué incluye, cuánto y para cuándo.</p>
+        <div class="hero-actions">
+          <a class="btn btn-tinta" data-wa="Hola, quiero cotizar. Les cuento:" href="#contacto">Escribir por WhatsApp</a>
+        </div>
+      </div>
+      <div class="datos" id="datos-contacto"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>MARAN × LayerSon Creative House</span>
+  <span>Diseño: Maran · Fabricación: LayerSon</span>
+</footer>
+
+<script>
+(function () {
+  const C = CATALOGO;
+  const cfg = C.config || {};
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const mxn = (n) => "$" + Number(n).toLocaleString("es-MX", { maximumFractionDigits: 0 });
+  const QUIEN = { maran: "Maran", layerson: "LayerSon", ambas: "Maran × LayerSon" };
+
+  // WhatsApp: si hay número, todos los botones data-wa abren chat con mensaje prellenado.
+  const wa = String(cfg.whatsapp || "").replace(/\D/g, "");
+  const waUrl = (msg) => wa ? "https://wa.me/" + wa + "?text=" + encodeURIComponent(msg) : "#contacto";
+  function wireWa(root) {
+    (root || document).querySelectorAll("[data-wa]").forEach((a) => {
+      a.href = waUrl(a.getAttribute("data-wa"));
+      if (wa) { a.target = "_blank"; a.rel = "noopener"; }
+    });
+  }
+  if (!wa) $("aviso-config").style.display = "block";
+
+  // Momentos
+  const fases = [["Antes", "antes"], ["Durante", "durante"], ["Después", "despues"]];
+  $("lista-momentos").innerHTML = (C.momentos || []).map((m) => `
+    <article class="momento" id="momento-${esc(m.id)}">
+      <h3>${esc(m.nombre)}</h3>
+      <p class="frase">${esc(m.frase)}</p>
+      ${fases.map(([t, k]) => (m[k] && m[k].length) ? `
+        <div class="fase"><b>${t}</b><ul>${m[k].map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : "").join("")}
+      <div class="pie">
+        <span class="precio">${m.desde != null ? `Desde ${mxn(m.desde)}<small>paquete base</small>` : `A cotizar<small>según alcance y cantidad</small>`}</span>
+        <a class="link" data-wa="Hola, quiero cotizar la experiencia ${m.nombre}." href="#contacto">Cotizar</a>
+      </div>
+    </article>`).join("");
+
+  const otros = C.otrosMomentos || [];
+  $("otros-momentos").innerHTML = otros.length ? `
+    <span>También diseñamos</span>
+    ${otros.map((o) => `<span class="tag">${esc(o)}</span>`).join("")}
+    <a class="link" data-wa="Hola, quiero cotizar un evento que no está en la lista. Es:" href="#contacto">Cuéntanos el tuyo</a>` : "";
+
+  // Temporadas
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  const fecha = (s) => { if (!s) return null; const d = new Date(s + "T00:00:00"); return isNaN(d) ? null : d; };
+  const fmt = (d) => d.toLocaleDateString("es-MX", { day: "numeric", month: "short" });
+  function estado(t) {
+    const a = fecha(t.abre), c = fecha(t.cierra);
+    if (!a) return ["proximamente", "Próximamente"];
+    if (hoy < a) return ["proximamente", "Abre " + fmt(a)];
+    if (c && hoy > c) return ["cerrada", "Cerrada"];
+    return ["abierta", "Pedidos abiertos"];
+  }
+  $("lista-temporadas").innerHTML = (C.temporadas || []).map((t) => {
+    const [cls, txt] = estado(t);
+    const a = fecha(t.abre), c = fecha(t.cierra);
+    const fechas = a ? (c ? `${fmt(a)} al ${fmt(c)}` : `Desde ${fmt(a)}`) : "Fechas por confirmar";
+    const abierta = cls === "abierta";
+    return `
+    <article class="temporada">
+      <span class="estado ${cls}">${txt}</span>
+      <h3>${esc(t.nombre)}</h3>
+      <p class="desc">${esc(t.descripcion)}</p>
+      <p class="fechas">${fechas}</p>
+      <div class="pie">
+        <span class="precio">${t.desde != null ? `Desde ${mxn(t.desde)}` : (abierta ? "Precios por WhatsApp" : "")}</span>
+        <span class="quien">${QUIEN[t.marca] || ""}</span>
+      </div>
+      ${abierta ? `<a class="link" data-wa="Hola, quiero pedir de la colección ${t.nombre}." href="#contacto">Pedir</a>` : ""}
+    </article>`;
+  }).join("");
+
+  // Negocio
+  $("lista-negocio").innerHTML = (C.negocio || []).map((n) => `
+    <article class="item">
+      <h3>${esc(n.nombre)}</h3>
+      <p class="desc">${esc(n.descripcion)}</p>
+      <div class="pie">
+        <span class="precio">${n.desde != null ? `Desde ${mxn(n.desde)} ${esc(n.lote)}` : `Cotiza ${esc(n.lote)}`}</span>
+        <a class="link" data-wa="Hola, quiero cotizar ${n.nombre} para mi negocio." href="#contacto">Cotizar</a>
+      </div>
+    </article>`).join("");
+
+  // A la medida
+  $("lista-medida").innerHTML = (C.aMedida || []).map((c) => `
+    <div class="caso"><h3>${esc(c.titulo)}</h3><p>${esc(c.descripcion)}</p></div>`).join("");
+
+  // Contacto
+  const datos = [];
+  if (wa) datos.push(`<div><span>WhatsApp</span><br><a href="${waUrl("Hola, quiero cotizar.")}" target="_blank" rel="noopener">+${wa}</a></div>`);
+  if (cfg.instagram) datos.push(`<div><span>Instagram</span><br><a href="https://www.instagram.com/${esc(cfg.instagram.replace(/^@/, ""))}/" target="_blank" rel="noopener">@${esc(cfg.instagram.replace(/^@/, ""))}</a></div>`);
+  if (cfg.ciudad) datos.push(`<div><span>Taller</span><br>${esc(cfg.ciudad)}</div>`);
+  $("datos-contacto").innerHTML = datos.join("") || `<div><span>Datos de contacto pendientes de configurar.</span></div>`;
+
+  wireWa(document);
+})();
+</script>
+</body>
+</html>
