@@ -581,6 +581,7 @@ const CATALOGO = {
         <span class="quien">${QUIEN[t.marca] || ""}</span>
       </div>
       ${abierta ? `<a class="link" data-wa="Hola, quiero pedir de la colección ${t.nombre}." href="#contacto">Pedir</a>` : ""}
+      ${cls === "proximamente" ? `<a class="link" data-wa="Hola, avísenme cuando abra la colección ${t.nombre}." href="#contacto">Avísame cuando abra</a>` : ""}
     </article>`;
   }).join("");
 
